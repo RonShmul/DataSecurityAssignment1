@@ -15,13 +15,13 @@ public class Assignment1 {
 
     }
 
-    public void sendGet() {
-        String urlStr = "http:/youtube.com";
+    public static void sendGet() {
+        String urlStr = "http://www.youtube.com";
         try {
             URL url = new URL(urlStr);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            //con.setRequestProperty("User-Agent", USER_AGENT);
+            con.setRequestProperty("User-Agent", "mozilla/5.0");
             int responseCode = con.getResponseCode();
             //System.out.println("\nSending 'GET' request to URL : " + url);
             //System.out.println("Response Code : " + responseCode);
@@ -43,5 +43,9 @@ public class Assignment1 {
         }
     }
 
+    public static void main(String[] args) {
+        while(true)
+            Assignment1.sendGet();
+    }
 
 }
