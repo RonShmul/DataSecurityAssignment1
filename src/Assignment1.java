@@ -11,8 +11,11 @@ import java.net.URL;
  */
 public class Assignment1 {
 
-    public void modulate1Bits() {
-
+    public void modulate1Bits(long window) {
+        long tStart = System.currentTimeMillis();
+        while((System.currentTimeMillis()-tStart)< window){
+            sendGet();
+        }
     }
 
     public static void sendGet() {
@@ -44,8 +47,9 @@ public class Assignment1 {
     }
 
     public static void main(String[] args) {
-        while(true)
-            Assignment1.sendGet();
+        Assignment1 ass= new Assignment1();
+        ass.modulate1Bits(6000);
+
     }
 
 }
