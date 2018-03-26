@@ -5,6 +5,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ronshmul on 25/03/2018.
@@ -17,8 +20,15 @@ public class Assignment1 {
             sendGet();
         }
     }
+    public void modulate0Bits(long window) {
+        try {
+            Thread.sleep(window);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public static void sendGet() {
+        public static void sendGet() {
         String urlStr = "http://www.youtube.com";
         try {
             URL url = new URL(urlStr);
@@ -45,11 +55,44 @@ public class Assignment1 {
             e.printStackTrace();
         }
     }
+    public void modulateMessage(String message, long window) {
+        int[] binarySequence = asBinarySequence(message);
+        for (int index = 0; index < binarySequence.length; index++) {
+            if (binarySequence[index] == 0)
+                modulate0Bits(window);
+            else
+                modulate1Bits(window);
+        }
+    }
+
+    public int[] asBinarySequence(String message){
+        byte[] byteArr = message.getBytes(StandardCharsets.US_ASCII);
+        StringBuilder binary = new StringBuilder();
+        int size = 0;
+        for (byte b : byteArr)
+        {
+            int val = b;
+            for (int i = 0; i < 8; i++)
+            {
+                binary.append((val & 128) == 0 ? 0 : 1);
+                binary.append(' ');
+                val <<= 1;
+                size++;
+            }
+        }
+        int[] intArr = new int[size];
+        String[] numbers = binary.toString().split(" ");//if spaces are uneven, use \\s+ instead of " "
+        int i = 0;
+        for (String number : numbers) {
+            intArr[i] = Integer.valueOf(number);
+            i++;
+        }
+        return intArr;
+    }
 
     public static void main(String[] args) {
         Assignment1 ass= new Assignment1();
-        ass.modulate1Bits(6000);
-
+        ass.modulateMessage("foo", 5000);
     }
 
 }
