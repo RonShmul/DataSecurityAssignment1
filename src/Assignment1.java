@@ -16,7 +16,7 @@ public class Assignment1 {
 
     public void modulate1Bits(long window) {
         long tStart = System.currentTimeMillis();
-        while((System.currentTimeMillis()-tStart)< window){
+        while((System.currentTimeMillis()-tStart)< window*0.8){
             sendGet();
         }
     }
@@ -66,7 +66,8 @@ public class Assignment1 {
     }
 
     public int[] asBinarySequence(String message){
-        byte[] byteArr = message.getBytes(StandardCharsets.US_ASCII);
+        byte[] byteArr = message.getBytes();
+
         StringBuilder binary = new StringBuilder();
         int size = 0;
         for (byte b : byteArr)
@@ -92,7 +93,11 @@ public class Assignment1 {
 
     public static void main(String[] args) {
         Assignment1 ass= new Assignment1();
-        ass.modulateMessage("foo", 5000);
+        ass.modulateMessage("0308089671_0308465954", 5000);
+        int[] arr= ass.asBinarySequence("0308089671_0308465954");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + "," +arr[i] + ",");
+        }
     }
 
 }
