@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -13,6 +14,7 @@ import java.net.URL;
  */
 public class Assignment1 {
 
+    public long time;
     public static void sendGet() {
         String urlStr = "http://www.youtube.com";
         try {
@@ -43,21 +45,22 @@ public class Assignment1 {
 
     public static void main(String[] args) {
         Assignment1 ass = new Assignment1();
-        long startTime = System.currentTimeMillis();
+        //long startTime = System.currentTimeMillis();
         ass.modulateMessage("0308089671_0308465954", 2000);
-        int[] arr = ass.asBinarySequence("0308089671_0308465954");
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + "," + arr[i] + ",");
-        }
-        System.out.println();
-        System.out.println(startTime);
+
     }
 
     public void modulate1Bits(long window) {
         long tStart = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - tStart) < window * 0.8) {
-            downloadPhoto();
-        }
+//        while ((System.currentTimeMillis() - tStart) < window * 0.8) {
+//            downloadPhoto();
+//        }
+//        try {
+//            Thread.sleep((long)(window*0.2));
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+    sendFile(window);
     }
 
     public void modulate0Bits(long window) {
@@ -82,12 +85,14 @@ public class Assignment1 {
 
     public void modulateMessage(String message, long window) {
         int[] binarySequence = asBinarySequence(message);
+        time = System.currentTimeMillis();
         for (int index = 0; index < binarySequence.length; index++) {
             if (binarySequence[index] == 0)
                 modulate0Bits(window);
             else
                 modulate1Bits(window);
         }
+        System.out.println(time);
     }
 
     public int[] asBinarySequence(String message) {
@@ -113,5 +118,25 @@ public class Assignment1 {
         }
         return intArr;
     }
+public void sendFile(long window) {
+    try{
+        InputStream is = new URL("https://tools.ietf.org/rfc/rfc1918.txt").openStream();
+        byte[] buf = new byte[1024];
 
+        long startTime = System.nanoTime();
+        long limitTime = System.nanoTime();
+        long difference = 0;
+
+        while (difference < window * 1000000){ /*5 billion nanoseconds = 5 seconds*/
+            is.read(buf);
+            limitTime = System.nanoTime();
+            difference = limitTime - startTime;
+        }
+
+        is.close();
+    }
+    catch(Exception e){
+        e.printStackTrace();
+    }
+}
 }
