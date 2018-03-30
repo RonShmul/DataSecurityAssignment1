@@ -45,22 +45,16 @@ public class Assignment1 {
 
     public static void main(String[] args) {
         Assignment1 ass = new Assignment1();
-        //long startTime = System.currentTimeMillis();
-        ass.modulateMessage("0308089671_0308465954", 2000);
+        ass.modulateMessage("0308089671_0308465954", 5000);
 
     }
 
     public void modulate1Bits(long window) {
         long tStart = System.currentTimeMillis();
-//        while ((System.currentTimeMillis() - tStart) < window * 0.8) {
-//            downloadPhoto();
-//        }
-//        try {
-//            Thread.sleep((long)(window*0.2));
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-    sendFile(window);
+        while ((System.currentTimeMillis() - tStart) < window) {
+            downloadPhoto();
+        }
+
     }
 
     public void modulate0Bits(long window) {
@@ -85,6 +79,9 @@ public class Assignment1 {
 
     public void modulateMessage(String message, long window) {
         int[] binarySequence = asBinarySequence(message);
+//        for (int i = 0; i < binarySequence.length; i++) {
+//            System.out.println(binarySequence[i]);
+//       }
         time = System.currentTimeMillis();
         for (int index = 0; index < binarySequence.length; index++) {
             if (binarySequence[index] == 0)
